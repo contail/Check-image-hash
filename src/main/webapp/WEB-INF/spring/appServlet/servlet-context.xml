@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+	<resources location="/webjars/" mapping="/webjars/**"/>
+	 
+	
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<context:component-scan base-package="com.java.spring" />
+		<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property>
+		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></beans:property>
+		<beans:property name="username" value="contail"></beans:property>
+		<beans:property name="password" value="contail"></beans:property>
+	
+	</beans:bean>
+	
+	
+	<beans:bean name ="template" class="org.springframework.jdbc.core.JdbcTemplate">
+		<beans:property name="dataSource" ref="dataSource"></beans:property>
+	
+	</beans:bean>
+	
+	<beans:bean name="dao" class="com.java.spring.dao.MemberDao">
+		<beans:property name="template" ref="template"></beans:property>
+	
+	</beans:bean>
+	
+	
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource"></beans:property>
+		<beans:property name="mapperLocations" value="classpath:com/java/spring/dao/mapper/IDao.xml"></beans:property>
+		 
+	</beans:bean>
+	
+	
+	
+	<!-- 새로 -->
+	<context:component-scan base-package="com.java.spring" />
+		<beans:bean name="dataSource2" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property>
+		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></beans:property>
+		<beans:property name="username" value="contail"></beans:property>
+		<beans:property name="password" value="contail"></beans:property>
+	
+	</beans:bean>
+	
+	
+	<beans:bean name ="template2" class="org.springframework.jdbc.core.JdbcTemplate">
+		<beans:property name="dataSource" ref="dataSource2"></beans:property>
+	
+	</beans:bean>
+	
+	<beans:bean name="dao2" class="com.java.spring.dao.ImageDao">
+		<beans:property name="template" ref="template2"></beans:property>
+	
+	</beans:bean>
+	<beans:bean id="sqlSessionFactory_2" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource2"></beans:property>		 
+		<beans:property name="mapperLocations" value="classpath:com/java/spring/dao/mapper/ImageDao.xml"></beans:property>
+	</beans:bean>	
+	<beans:bean id ="sqlSession_2" class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg index="0" ref="sqlSessionFactory_2"></beans:constructor-arg>	
+	
+	</beans:bean>
+	
+	 
+	<beans:bean id ="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg index="0" ref="sqlSessionFactory"></beans:constructor-arg>	
+	
+	</beans:bean>
+	
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		 <!-- setting maximum upload size -->
+		<beans:property name="maxUploadSize" value="100000" />
+
+	</beans:bean>
+	
+	
+	
+	
+	
+</beans:beans>
