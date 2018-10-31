@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+ <mapper namespace="com.java.spring.dao.IMemberDao">
+ 
+ <select id="memberSearch" resultType="String">
+ select name from member where email =#{param1} and password= #{param2}
+ </select>
+ 
+ <insert id="memberJoin">
+ 	INSERT INTO member (email, password, name) VALUES (#{param1}, #{param2}, #{param3})
+ 
+ </insert>
+ 
+  
+
+ 
+ </mapper>

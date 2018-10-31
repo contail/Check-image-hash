@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  이미지 dhash값을 리스트로 저장 -->
+
+ <mapper namespace="com.java.spring.dao.IImageDao">
+
+
+ <select id="imgDao"  resultType="com.java.spring.dto.ImageDto">
+ select * from image 
+ </select>
+ 
+  <select id="imgView" resultType="com.java.spring.dto.ImageDto">
+ select new_name, image_name from image 
+ </select>
+ 
+ 
+   <select id="ItemSearch" parameterType="String" resultType="String">
+ 		select image_name from image where image_hash = #{param1} 
+ </select>
+ 
+    <select id="imgSearch"  parameterType="String" resultType="com.java.spring.dto.ImageDto">
+ 		select image_hash from image 
+ </select>
+ 
+    <select id="ImageSearch" parameterType="String" resultType="com.java.spring.dto.ImageDto">
+ 		select image_name, new_name from image where image_hash = #{param1} 
+ </select>
+ 
+ <insert id="imageUpload">
+ 	INSERT INTO image (image_name, image_hash, new_name) VALUES (#{param1}, #{param2}, #{param3})
+ 
+ </insert>
+ 
+  
+
+ 
+ </mapper>
